@@ -5,35 +5,35 @@ namespace Restaurant.API.Repositories.Foods
 {
     public class FoodRepository : IFoodRepository
     {
-        private readonly RestaurantDbContext dbContext;
+        private readonly RestaurantDbContext _dbContext;
 
         public FoodRepository(RestaurantDbContext dbContext)
         {
-            dbContext = dbContext;
+            _dbContext = dbContext;
         }
 
         public async Task InsertFoodAsync(Food food)
         {
-            await dbContext.Food.AddAsync(food);
-            await dbContext.SaveChangesAsync();
+            await _dbContext.Food.AddAsync(food);
+            await _dbContext.SaveChangesAsync();
         }
 
         public IQueryable<Food> SelectAllFoods() =>
-            dbContext.Food;
+            _dbContext.Food;
 
         public async Task<Food> SelectFoodByIdAsync(Guid id) =>
-            await dbContext.Food.FindAsync(id);
+            await _dbContext.Food.FindAsync(id);
 
         public async Task UpdateFoodAsync(Food food)
         {
-            dbContext.Food.Update(food);
-            await dbContext.SaveChangesAsync();
+            _dbContext.Food.Update(food);
+            await _dbContext.SaveChangesAsync();
         }
 
         public async Task DeleteFoodAsync(Food food)
         {
-            dbContext.Remove(food);
-            await dbContext.SaveChangesAsync();
+            _dbContext.Remove(food);
+            await _dbContext.SaveChangesAsync();
         }
 
     }

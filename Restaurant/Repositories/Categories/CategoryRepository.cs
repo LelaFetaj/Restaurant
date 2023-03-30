@@ -5,35 +5,35 @@ namespace Restaurant.API.Repositories.Categories
 {
     public class CategoryRepository : ICategoryRepository
     {
-        private readonly RestaurantDbContext dbContext;
+        private readonly RestaurantDbContext _dbContext;
 
         public CategoryRepository(RestaurantDbContext dbContext)
         {
-            dbContext = dbContext;
+            _dbContext = dbContext;
         }
 
         public async Task InsertCategoryAsync(Category category)
         {
-            await dbContext.Category.AddAsync(category);
-            await dbContext.SaveChangesAsync();
+            await _dbContext.Category.AddAsync(category);
+            await _dbContext.SaveChangesAsync();
         }
 
         public IQueryable<Category> SelectAllCategories() =>
-            dbContext.Category;
+            _dbContext.Category;
 
         public async Task<Category> SelectCategoryByIdAsync(Guid id) =>
-            await dbContext.Category.FindAsync(id);
+            await _dbContext.Category.FindAsync(id);
 
         public async Task UpdateCategoryAsync(Category category)
         {
-            dbContext.Category.Update(category);
-            await dbContext.SaveChangesAsync();
+            _dbContext.Category.Update(category);
+            await _dbContext.SaveChangesAsync();
         }
 
         public async Task DeleteCategoryAsync(Category category)
         {
-            dbContext.Remove(category);
-            await dbContext.SaveChangesAsync();
+            _dbContext.Remove(category);
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

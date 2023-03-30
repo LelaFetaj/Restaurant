@@ -1,27 +1,27 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Restaurant.API.Models.DTOs.Admins;
-using Restaurant.API.Models.Entities.Admins;
-using Restaurant.API.Services.Admins;
+using Restaurant.API.Models.DTOs.Foods;
+using Restaurant.API.Models.Entities.Foods;
+using Restaurant.API.Services.Foods;
 
-namespace Restaurant.API.Controllers.Admins
+namespace Restaurant.API.Controllers.Foods
 {
     [ApiController]
-    [Route("api/[controller]")] 
-    public class AdminController : ControllerBase
+    [Route("api/[controller]")]
+    public class FoodController : ControllerBase
     {
-        private readonly IAdminService adminService;
+        private readonly IFoodService foodService;
 
-        public AdminController(IAdminService adminService)
+        public FoodController(IFoodService foodService)
         {
-            this.adminService = adminService;
+            this.foodService = foodService;
         }
 
         [HttpPost]
-        public async Task<ActionResult<string>> AddAdmin(CreateAdminDto createAdminDto)
+        public async Task<ActionResult<string>> AddFood(CreateFoodDto createFoodDto)
         {
             try
             {
-                (bool result, string message) = await adminService.AddAdminAsync(createAdminDto);
+                (bool result, string message) = await foodService.AddFoodAsync(createFoodDto);
 
                 if (result)
                 {
@@ -37,12 +37,12 @@ namespace Restaurant.API.Controllers.Admins
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Admin>>> GetAllAdmins()
+        public async Task<ActionResult<List<Food>>> GetAllFoods()
         {
             try
             {
-                List<Admin> admin = await adminService.RetrieveAllAdmins();
-                return Ok(admin);
+                List<Food> food = await foodService.RetrieveAllFoods();
+                return Ok(food);
             }
             catch (Exception ex)
             {
@@ -51,12 +51,12 @@ namespace Restaurant.API.Controllers.Admins
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Admin>> GetAdmin(Guid id)
+        public async Task<ActionResult<Food>> GetFood(Guid id)
         {
             try
             {
-                Admin admin = await adminService.RetrieveAdminById(id);
-                return Ok(admin);
+                Food food = await foodService.RetrieveFoodById(id);
+                return Ok(food);
             }
             catch (Exception ex)
             {
@@ -65,11 +65,11 @@ namespace Restaurant.API.Controllers.Admins
         }
 
         [HttpPut]
-        public async Task<ActionResult<string>> UpdateAdmin(UpdateAdminDto updateAdminDto)
+        public async Task<ActionResult<string>> UpdateFood(UpdateFoodDto updateFoodDto)
         {
             try
             {
-                (bool result, string message) = await adminService.UpdateAdminAsync(updateAdminDto);
+                (bool result, string message) = await foodService.UpdateFoodAsync(updateFoodDto);
 
                 if (result)
                 {
@@ -86,11 +86,11 @@ namespace Restaurant.API.Controllers.Admins
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<string>> DeleteAdmin(Guid id)
+        public async Task<ActionResult<string>> DeleteFood(Guid id)
         {
             try
             {
-                (bool result, string message) = await adminService.DeleteAdminByIdAsync(id);
+                (bool result, string message) = await foodService.DeleteFoodByIdAsync(id);
 
                 if (result)
                 {

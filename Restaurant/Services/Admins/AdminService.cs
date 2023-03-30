@@ -32,6 +32,8 @@ namespace Restaurant.API.Services.Admins
                 Password = createAdminDto.Password
             };
 
+            await adminRepository.InsertAdminAsync(admin);
+
             return (true, "Success");
         }
 
@@ -58,7 +60,7 @@ namespace Restaurant.API.Services.Admins
 
             bool exists = await adminRepository
                 .SelectAllAdmins()
-                .AnyAsync(x => x.Username == updateAdminDto.Username);
+                .AnyAsync(x => x.Username == updateAdminDto.Username && x.Id != updateAdminDto.Id);
 
             if (exists)
             {
@@ -68,6 +70,7 @@ namespace Restaurant.API.Services.Admins
             admin.Username = updateAdminDto.Username;
             admin.Password = updateAdminDto.Password;
             admin.FullName = updateAdminDto.FullName;
+
             await adminRepository.UpdateAdminAsync(admin);
 
             return (true, "Success");

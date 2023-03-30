@@ -1,27 +1,27 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Restaurant.API.Models.DTOs.Admins;
-using Restaurant.API.Models.Entities.Admins;
-using Restaurant.API.Services.Admins;
+using Restaurant.API.Models.DTOs.Categories;
+using Restaurant.API.Models.Entities.Categories;
+using Restaurant.API.Services.Categories;
 
-namespace Restaurant.API.Controllers.Admins
+namespace Restaurant.API.Controllers.Categories
 {
     [ApiController]
-    [Route("api/[controller]")] 
-    public class AdminController : ControllerBase
+    [Route("api/[controller]")]
+    public class CategoryController : ControllerBase
     {
-        private readonly IAdminService adminService;
+        private readonly ICategoryService categoryService;
 
-        public AdminController(IAdminService adminService)
+        public CategoryController(ICategoryService categoryService)
         {
-            this.adminService = adminService;
+            this.categoryService = categoryService;
         }
 
         [HttpPost]
-        public async Task<ActionResult<string>> AddAdmin(CreateAdminDto createAdminDto)
+        public async Task<ActionResult<string>> AddCategory(CreateCategoryDto createCategoryDto)
         {
             try
             {
-                (bool result, string message) = await adminService.AddAdminAsync(createAdminDto);
+                (bool result, string message) = await categoryService.AddCategoryAsync(createCategoryDto);
 
                 if (result)
                 {
@@ -37,12 +37,12 @@ namespace Restaurant.API.Controllers.Admins
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Admin>>> GetAllAdmins()
+        public async Task<ActionResult<List<Category>>> GetAllCategories()
         {
             try
             {
-                List<Admin> admin = await adminService.RetrieveAllAdmins();
-                return Ok(admin);
+                List<Category> category = await categoryService.RetrieveAllCategories();
+                return Ok(category);
             }
             catch (Exception ex)
             {
@@ -51,12 +51,12 @@ namespace Restaurant.API.Controllers.Admins
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Admin>> GetAdmin(Guid id)
+        public async Task<ActionResult<Category>> GetCategory(Guid id)
         {
             try
             {
-                Admin admin = await adminService.RetrieveAdminById(id);
-                return Ok(admin);
+                Category category = await categoryService.RetrieveCategoryById(id);
+                return Ok(category);
             }
             catch (Exception ex)
             {
@@ -65,11 +65,11 @@ namespace Restaurant.API.Controllers.Admins
         }
 
         [HttpPut]
-        public async Task<ActionResult<string>> UpdateAdmin(UpdateAdminDto updateAdminDto)
+        public async Task<ActionResult<string>> UpdateCategory(UpdateCategoryDto updateCategoryDto)
         {
             try
             {
-                (bool result, string message) = await adminService.UpdateAdminAsync(updateAdminDto);
+                (bool result, string message) = await categoryService.UpdateCategoryAsync(updateCategoryDto);
 
                 if (result)
                 {
@@ -86,11 +86,11 @@ namespace Restaurant.API.Controllers.Admins
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<string>> DeleteAdmin(Guid id)
+        public async Task<ActionResult<string>> DeleteCategory(Guid id)
         {
             try
             {
-                (bool result, string message) = await adminService.DeleteAdminByIdAsync(id);
+                (bool result, string message) = await categoryService.DeleteCategoryByIdAsync(id);
 
                 if (result)
                 {

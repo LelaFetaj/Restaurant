@@ -1,27 +1,27 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Restaurant.API.Models.DTOs.Admins;
-using Restaurant.API.Models.Entities.Admins;
-using Restaurant.API.Services.Admins;
+using Restaurant.API.Models.DTOs.Orders;
+using Restaurant.API.Models.Entities.Orders;
+using Restaurant.API.Services.Orders;
 
-namespace Restaurant.API.Controllers.Admins
+namespace Restaurant.API.Controllers.Orders
 {
     [ApiController]
-    [Route("api/[controller]")] 
-    public class AdminController : ControllerBase
+    [Route("api/[controller]")]
+    public class OrderController : ControllerBase
     {
-        private readonly IAdminService adminService;
+        private readonly IOrderService orderService;
 
-        public AdminController(IAdminService adminService)
+        public OrderController(IOrderService orderService)
         {
-            this.adminService = adminService;
+            this.orderService = orderService;
         }
 
         [HttpPost]
-        public async Task<ActionResult<string>> AddAdmin(CreateAdminDto createAdminDto)
+        public async Task<ActionResult<string>> AddOrder(CreateOrderDto createOrderDto)
         {
             try
             {
-                (bool result, string message) = await adminService.AddAdminAsync(createAdminDto);
+                (bool result, string message) = await orderService.AddOrderAsync(createOrderDto);
 
                 if (result)
                 {
@@ -37,12 +37,12 @@ namespace Restaurant.API.Controllers.Admins
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Admin>>> GetAllAdmins()
+        public async Task<ActionResult<List<Order>>> GetAllOrders()
         {
             try
             {
-                List<Admin> admin = await adminService.RetrieveAllAdmins();
-                return Ok(admin);
+                List<Order> order = await orderService.RetrieveAllOrders();
+                return Ok(order);
             }
             catch (Exception ex)
             {
@@ -51,12 +51,12 @@ namespace Restaurant.API.Controllers.Admins
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Admin>> GetAdmin(Guid id)
+        public async Task<ActionResult<Order>> GetOrder(Guid id)
         {
             try
             {
-                Admin admin = await adminService.RetrieveAdminById(id);
-                return Ok(admin);
+                Order order = await orderService.RetrieveOrderById(id);
+                return Ok(order);
             }
             catch (Exception ex)
             {
@@ -65,11 +65,11 @@ namespace Restaurant.API.Controllers.Admins
         }
 
         [HttpPut]
-        public async Task<ActionResult<string>> UpdateAdmin(UpdateAdminDto updateAdminDto)
+        public async Task<ActionResult<string>> UpdateOrder(UpdateOrderDto updateOrderDto)
         {
             try
             {
-                (bool result, string message) = await adminService.UpdateAdminAsync(updateAdminDto);
+                (bool result, string message) = await orderService.UpdateOrderAsync(updateOrderDto);
 
                 if (result)
                 {
@@ -86,11 +86,11 @@ namespace Restaurant.API.Controllers.Admins
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<string>> DeleteAdmin(Guid id)
+        public async Task<ActionResult<string>> DeleteOrder(Guid id)
         {
             try
             {
-                (bool result, string message) = await adminService.DeleteAdminByIdAsync(id);
+                (bool result, string message) = await orderService.DeleteOrderByIdAsync(id);
 
                 if (result)
                 {

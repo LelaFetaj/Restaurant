@@ -5,35 +5,35 @@ namespace Restaurant.API.Repositories.Orders
 {
     public class OrderRepository : IOrderRepository
     {
-        private readonly RestaurantDbContext dbContext;
+        private readonly RestaurantDbContext _dbContext;
 
         public OrderRepository(RestaurantDbContext dbContext)
         {
-            dbContext = dbContext;
+            _dbContext = dbContext;
         }
 
         public async Task InsertOrderAsync(Order order)
         {
-            await dbContext.Order.AddAsync(order);
-            await dbContext.SaveChangesAsync();
+            await _dbContext.Order.AddAsync(order);
+            await _dbContext.SaveChangesAsync();
         }
 
         public IQueryable<Order> SelectAllOrders() =>
-            dbContext.Order;
+            _dbContext.Order;
 
         public async Task<Order> SelectOrderByIdAsync(Guid id) =>
-            await dbContext.Order.FindAsync(id);
+            await _dbContext.Order.FindAsync(id);
 
         public async Task UpdateOrderAsync(Order order)
         {
-            dbContext.Order.Update(order);
-            await dbContext.SaveChangesAsync();
+            _dbContext.Order.Update(order);
+            await _dbContext.SaveChangesAsync();
         }
 
         public async Task DeleteOrderAsync(Order order)
         {
-            dbContext.Remove(order);
-            await dbContext.SaveChangesAsync();
+            _dbContext.Remove(order);
+            await _dbContext.SaveChangesAsync();
         }
     }
 }
