@@ -21,8 +21,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-    <Folder Include="Services\" />
+    <Folder Include="Services\Foods\" />
+    <Folder Include="Services\Categories\" />
+    <Folder Include="Services\Orders\" />
   </ItemGroup>
 
 </Project>

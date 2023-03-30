@@ -3,6 +3,7 @@ using Restaurant.API.Repositories.Admins;
 using Restaurant.API.Repositories.Categories;
 using Restaurant.API.Repositories.Foods;
 using Restaurant.API.Repositories.Orders;
+using Restaurant.API.Services.Admins;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +20,7 @@ builder.Services.AddTransient<IAdminRepository, AdminRepository>();
 builder.Services.AddTransient<ICategoryRepository, CategoryRepository>();
 builder.Services.AddTransient<IFoodRepository, FoodRepository>();
 builder.Services.AddTransient<IOrderRepository, OrderRepository>();
+builder.Services.AddTransient<IAdminService, AdminService>();
 
 var app = builder.Build();
 
