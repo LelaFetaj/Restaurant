@@ -1,3 +1,4 @@
+using Microsoft.Extensions.DependencyInjection;
 using Restaurant.API.Data.Contexts;
 using Restaurant.API.Repositories.Admins;
 using Restaurant.API.Repositories.Categories;
@@ -28,6 +29,32 @@ builder.Services.AddTransient<ICategoryService, CategoryService>();
 builder.Services.AddTransient<IFoodService, FoodService>();
 builder.Services.AddTransient<IOrderService, OrderService>();
 
+
+var provider = builder.Services.BuildServiceProvider();
+var configuration = provider.GetRequiredService<IConfiguration>();
+
+builder.Services.AddCors(options =>
+{
+    //var frontendURL = configuration.GetValue<string>("frontend_url");
+
+    //options.AddDefaultPolicy(builder =>
+    //{
+    //builder.WithOrigins(frontendURL).AllowAnyOrigin().AllowAnyHeader();
+    //});
+    //options.AddPolicy("CorsPolicy", policy =>
+    //        policy
+    //            .AllowAnyOrigin()
+    //            .AllowAnyHeader()
+    //            .AllowAnyMethod()
+    //    );
+    options.AddPolicy("Allow Origins", builder =>
+    {
+        builder.AllowAnyOrigin()
+        .AllowAnyMethod()
+        .AllowAnyHeader();
+    });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -38,6 +65,13 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("Allow Origins");
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+});
 
 app.UseAuthorization();
 

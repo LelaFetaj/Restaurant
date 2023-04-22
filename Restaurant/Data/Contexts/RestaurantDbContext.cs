@@ -20,7 +20,7 @@ namespace Restaurant.API.Data.Contexts
         {
             string connectionString = this._configuration.GetConnectionString(name: "DefaultConnection");
 
-            optionsBuilder.UseSqlServer(connectionString);
+            optionsBuilder.UseNpgsql(connectionString);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
 using Restaurant.API.Models.DTOs.Admins;
 using Restaurant.API.Models.Entities.Admins;
 using Restaurant.API.Services.Admins;
@@ -6,7 +7,7 @@ using Restaurant.API.Services.Admins;
 namespace Restaurant.API.Controllers.Admins
 {
     [ApiController]
-    [Route("api/[controller]")] 
+    [Route("api/[controller]")]
     public class AdminController : ControllerBase
     {
         private readonly IAdminService adminService;

@@ -12,7 +12,7 @@
 
         public string Total { get; set; }
 
-        public int OrderDate { get; set; }
+        public DateTime OrderDate { get; set; }
 
         public string Status { get; set; }
         
