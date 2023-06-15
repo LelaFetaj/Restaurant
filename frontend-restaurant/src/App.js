@@ -1,17 +1,28 @@
 import React from 'react'
-
-//import { About, Footer, Header, Skills, Testimonial, Work} from './container';
-//import { Navbar } from './components';
-//import './App.css';
-//import Admin from './components/Admin';
+import AddAdmin from './components/AddAdmin';
 import Category from './components/Category';
+import AdminTable from './components/AdminTable';
+import Food from './components/Food';
 import Navbar from './components/Navbar';
-
+import UpdateAdmin from './components/UpdateAdmin';
+import UpdatePassword from './components/UpdatePassword';
+import { Route, Routes } from "react-router-dom"
 const App = () => {
   return (
     <>
     <Navbar/>
-    <Category/>
+    <div className="container">
+      <Routes>
+        <Route path="/Category" element={<Category />} />
+        <Route path="/AddAdmin" element={<AddAdmin />} />
+        <Route path="/AdminTable" element={<AdminTable />} />
+        <Route path="/Food" element={<Food />} />
+        <Route path="/UpdateAdmin/:id" element={<UpdateAdmin />} />
+        <Route path="/UpdatePassword/:id" element={<UpdatePassword />} />
+        {/* <Route path="/admin/:id/UpdatePassword" component={UpdatePassword} /> */}
+      </Routes>
+    </div>
+    {/* <Category/> */}
     </>
     // <div className='app'>
     //   <Navbar/>
@@ -21,62 +32,3 @@ const App = () => {
 }
 
 export default App;
-
-
-// import './App.css';
-// import 'bootstrap/dist/css/bootstrap.min.css';
-// import { BrowserRouter as Router, Routes , Route } from 'react-router-dom';
-// import {routes} from './routes';
-// import Manage_Admin from './Manage_Admin';
-// import { useNavigate } from "react-router-dom";
-
-// function App() {
-
-//   const navigate = (path) => {
-//     const navigate = useNavigate();
-//     navigate(path);
-//   }
-  
-//   return (
-//     <Router>
-//       <Routes>
-//         {routes.map((route) => (
-//           <Route key={route.path} path={route.path} element={route.element}/>
-//         ))}
-//       </Routes>
-//       <Manage_Admin navigate={navigate}/>
-//     </Router>
-//   );
-// }
-
-// export default App;
-
-
-
-// import logo from './logo.svg';
-// import './App.css';
-// import Admin from './Admin';
-// import { Navigation } from './Navigation';
-// import { Home } from './Home';
-
-// import {BrowserRouter, Route, Routes} from 'react-router-dom';
-
-// function App() {
-//   return (
-//     <BrowserRouter>
-//     <div classname='container'>
-//       <h3 className='m-3 d-flex justify-content-center'>
-//         React Js
-//       </h3>
-
-//     <Navigation />
-
-//     <Routes>
-//       <Route path='/' element={<Home/>} exact/>
-//     </Routes>
-//     </div>
-//     </BrowserRouter>
-//   );
-// }
-
-// export default App;

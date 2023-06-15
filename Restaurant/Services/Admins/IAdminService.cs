@@ -1,5 +1,6 @@
 ﻿using Restaurant.API.Models.DTOs.Admins;
 using Restaurant.API.Models.Entities.Admins;
+using System.Threading.Tasks;
 
 namespace Restaurant.API.Services.Admins
 {
@@ -14,5 +15,9 @@ namespace Restaurant.API.Services.Admins
         Task<(bool, string)> UpdateAdminAsync(UpdateAdminDto updateAdminDto);
 
         Task<(bool, string)> DeleteAdminByIdAsync(Guid id);
+
+        Task<(bool, string)> PasswordVerification(string storedPassword, string givenPassword);
+
+        Task<(bool, string)> UpdatePasswordAsync(PasswordDto PasswordDto);
     }
 }

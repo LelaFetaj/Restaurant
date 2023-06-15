@@ -25,11 +25,18 @@ namespace Restaurant.API.Services.Admins
                 return (false, "An admin with the same username exists. Please choose another username!");
             }
 
+            // Generate a random salt
+            string salt = BCrypt.Net.BCrypt.GenerateSalt();
+
+            // Hash the password using the generated salt
+            string hashedPassword = BCrypt.Net.BCrypt.HashPassword(createAdminDto.Password, salt);
+
+
             Admin admin = new Admin
             {
                 FullName = createAdminDto.FullName,
                 Username = createAdminDto.Username,
-                Password = createAdminDto.Password
+                Password = hashedPassword
             };
 
             await adminRepository.InsertAdminAsync(admin);
@@ -67,8 +74,14 @@ namespace Restaurant.API.Services.Admins
                 return (false, "An admin with the same username exists. Please choose another username!");
             }
 
+            // Generate a random salt
+            string salt = BCrypt.Net.BCrypt.GenerateSalt();
+
+            // Hash the password using the generated salt
+            string hashedPassword = BCrypt.Net.BCrypt.HashPassword(updateAdminDto.Password, salt);
+
             admin.Username = updateAdminDto.Username;
-            admin.Password = updateAdminDto.Password;
+            admin.Password = hashedPassword;
             admin.FullName = updateAdminDto.FullName;
 
             await adminRepository.UpdateAdminAsync(admin);
@@ -88,6 +101,40 @@ namespace Restaurant.API.Services.Admins
             await adminRepository.DeleteAdminAsync(admin);
 
             return (true, "Success");
+        }
+
+        public async Task<(bool, string)> PasswordVerification(string storedPassword, string givenPassword)
+        {
+
+            // Perform the password comparison logic here
+            // You can use a library or implement your own password hashing and comparison logic
+
+            // Example using BCrypt.Net library
+            bool passwordMatches = await adminRepository.BCryptVerifyAsync(givenPassword, storedPassword);
+
+            return (passwordMatches, "Passwords match");
+        }
+
+        public async Task<(bool, string)> UpdatePasswordAsync(PasswordDto PasswordDto)
+        {
+            Admin admin = await adminRepository.SelectAdminByIdAsync(PasswordDto.Id);
+
+            if (admin == null)
+            {
+                return (false, $"Couldn't find admin with id: {PasswordDto.Id}");
+            }
+
+            // Generate a random salt
+            string salt = BCrypt.Net.BCrypt.GenerateSalt();
+
+            // Hash the password using the generated salt
+            string hashedPassword = BCrypt.Net.BCrypt.HashPassword(PasswordDto.NewPassword, salt);
+
+            admin.Password = hashedPassword;
+
+            await adminRepository.UpdateAdminAsync(admin);
+
+            return (true, "Password changed successfully");
         }
     }
 }

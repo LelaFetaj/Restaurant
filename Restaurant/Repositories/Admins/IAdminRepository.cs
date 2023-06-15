@@ -9,5 +9,6 @@ namespace Restaurant.API.Repositories.Admins
         Task<Admin> SelectAdminByIdAsync(Guid id);
         Task UpdateAdminAsync(Admin admin);
         Task DeleteAdminAsync(Admin admin);
+        Task<bool> BCryptVerifyAsync(string givenPassword, string hashedPassword);
     }
 }

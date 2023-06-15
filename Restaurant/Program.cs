@@ -35,24 +35,13 @@ var configuration = provider.GetRequiredService<IConfiguration>();
 
 builder.Services.AddCors(options =>
 {
-    //var frontendURL = configuration.GetValue<string>("frontend_url");
-
-    //options.AddDefaultPolicy(builder =>
-    //{
-    //builder.WithOrigins(frontendURL).AllowAnyOrigin().AllowAnyHeader();
-    //});
-    //options.AddPolicy("CorsPolicy", policy =>
-    //        policy
-    //            .AllowAnyOrigin()
-    //            .AllowAnyHeader()
-    //            .AllowAnyMethod()
-    //    );
-    options.AddPolicy("Allow Origins", builder =>
-    {
-        builder.AllowAnyOrigin()
-        .AllowAnyMethod()
-        .AllowAnyHeader();
-    });
+    options.AddPolicy("AllowLocalhost3000",
+        builder =>
+        {
+            builder.WithOrigins("http://localhost:3000")
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        });
 });
 
 var app = builder.Build();
@@ -66,7 +55,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseCors("Allow Origins");
+app.UseRouting();
+
+app.UseCors("AllowLocalhost3000");
 
 app.UseEndpoints(endpoints =>
 {

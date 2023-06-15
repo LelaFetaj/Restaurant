@@ -1,5 +1,6 @@
 ﻿using Restaurant.API.Data.Contexts;
 using Restaurant.API.Models.Entities.Admins;
+using BCrypt.Net;
 
 namespace Restaurant.API.Repositories.Admins
 {
@@ -34,6 +35,11 @@ namespace Restaurant.API.Repositories.Admins
         {
             _dbContext.Remove(admin);
             await _dbContext.SaveChangesAsync();
+        }
+
+        public Task<bool> BCryptVerifyAsync(string givenPassword, string hashedPassword)
+        {
+            return Task.Run(() => BCrypt.Net.BCrypt.Verify(givenPassword, hashedPassword));
         }
     }
 }

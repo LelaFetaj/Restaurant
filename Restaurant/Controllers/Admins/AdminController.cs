@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Restaurant.API.Models.DTOs.Admins;
 using Restaurant.API.Models.Entities.Admins;
+using Restaurant.API.Repositories.Admins;
 using Restaurant.API.Services.Admins;
 
 namespace Restaurant.API.Controllers.Admins
@@ -106,5 +107,42 @@ namespace Restaurant.API.Controllers.Admins
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpPut]
+        [Route("UpdatePassword")]
+        public async Task<ActionResult<string>> UpdatePassword(PasswordDto PasswordDto)
+        {
+            try
+            {
+                Admin admin = await adminService.RetrieveAdminById(PasswordDto.Id);
+
+                if (admin == null)
+                {
+                    return NotFound();
+                }
+
+                // Compare the given password with the stored password
+                (bool passwordMatches, string message) = await adminService.PasswordVerification(admin.Password, PasswordDto.CurrentPassword);
+
+                if (passwordMatches)
+                {
+                    (bool result, message) = await adminService.UpdatePasswordAsync(PasswordDto);
+
+                    if (result)
+                    {
+                        return Ok(message);
+                    }
+
+                    return BadRequest(message);
+                }
+                return BadRequest(message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
+
     }
 }
