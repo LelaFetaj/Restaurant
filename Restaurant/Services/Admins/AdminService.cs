@@ -36,7 +36,8 @@ namespace Restaurant.API.Services.Admins
             {
                 FullName = createAdminDto.FullName,
                 Username = createAdminDto.Username,
-                Password = hashedPassword
+                Password = hashedPassword,
+                Position = createAdminDto.Position
             };
 
             await adminRepository.InsertAdminAsync(admin);
@@ -74,6 +75,9 @@ namespace Restaurant.API.Services.Admins
                 return (false, "An admin with the same username exists. Please choose another username!");
             }
 
+            // Store the current position before updating
+            int currentPosition = admin.Position;
+
             // Generate a random salt
             string salt = BCrypt.Net.BCrypt.GenerateSalt();
 
@@ -84,7 +88,22 @@ namespace Restaurant.API.Services.Admins
             admin.Password = hashedPassword;
             admin.FullName = updateAdminDto.FullName;
 
-            await adminRepository.UpdateAdminAsync(admin);
+            // Update the position if necessary
+            if (currentPosition != updateAdminDto.Position)
+            {
+                admin.Position = updateAdminDto.Position;
+
+                // Shift the other rows to accommodate the change in position
+                IQueryable<Admin> adminsToUpdate = adminRepository.SelectAllAdmins()
+                    .Where(x => x.Position >= updateAdminDto.Position && x.Id != admin.Id);
+
+                foreach (Admin adminToUpdate in adminsToUpdate)
+                {
+                    adminToUpdate.Position++;
+                }
+            }
+
+                await adminRepository.UpdateAdminAsync(admin);
 
             return (true, "Success");
         }

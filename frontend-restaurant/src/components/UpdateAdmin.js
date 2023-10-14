@@ -63,7 +63,6 @@ const UpdateAdmin = () => {
         <Form className="form_container" onSubmit={handleSubmit}>
           <div className="form_group">
             <h1>Update Admin</h1>
-            <label>Full Name</label>
             <Form.Group className="mb-3" controlId="formBasicText">
                <input
                type="text"
@@ -73,7 +72,6 @@ const UpdateAdmin = () => {
                onChange={handleChange}
                />
             </Form.Group>
-            <label>Username</label>
             <Form.Group className="mb-3" controlId="formBasicText">
               <input
                type="text"

@@ -6,11 +6,15 @@ namespace Restaurant.API.Models.Entities.Categories
     {
         public Guid Id { get; set; } //guid per id unike
 
+        public string ImageName { get; set; }
+
         public string Title { get; set; }
 
-        public string Featured { get; set; }
+        public bool Featured { get; set; }
 
-        public string Active { get; set; }
+        public bool Active { get; set; }
+
+        public byte[] FileContent { get; set; }
 
         public virtual ICollection<Food> Foods { get; set; } //lidhja me tabelen tjeter per foreign key
 

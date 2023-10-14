@@ -15,12 +15,19 @@ namespace Restaurant.API.Repositories.Admins
 
         public async Task InsertAdminAsync(Admin admin)
         {
+            IQueryable<Admin> adminsToUpdate = SelectAllAdmins().Where(x => x.Position >= admin.Position);
+
+            foreach (Admin adminToUpdate in adminsToUpdate)
+            {
+                adminToUpdate.Position++;
+            }
+
             await _dbContext.Admin.AddAsync(admin);
             await _dbContext.SaveChangesAsync();
         }
 
         public IQueryable<Admin> SelectAllAdmins()=>
-            _dbContext.Admin;
+            _dbContext.Admin.OrderBy(x => x.Position);
 
         public async Task<Admin> SelectAdminByIdAsync(Guid id) =>
             await _dbContext.Admin.FindAsync(id);

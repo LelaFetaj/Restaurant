@@ -1,12 +1,14 @@
 import React from 'react';
-import Admin from './Admin';
-import UpdateAdmin from './Admin';
+import AddAdmin from './AddAdmin';
+import UpdateAdmin from './UpdateAdmin';
 import UpdatePassword from './UpdatePassword';
+import AddCategory from './AddCategory';
+import UpdateCategory from './UpdateCategory';
 
 export const routes = [
     {
-        path: "./admin",
-        element: <Admin />,
+        path: "./AddAdmin",
+        element: <AddAdmin />,
     },
     {
         path: "./UpdateAdmin",
@@ -15,5 +17,13 @@ export const routes = [
     {
         path: "./UpdatePassword",
         element: <UpdatePassword />,
+    },
+    {
+        path: "./AddCategory",
+        element: <AddCategory />,
+    },
+    {
+        path: "./UpdateCategory",
+        element: <UpdateCategory />,
     },
 ];

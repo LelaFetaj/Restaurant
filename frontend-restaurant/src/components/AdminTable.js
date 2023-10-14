@@ -47,7 +47,7 @@ const AdminTable = () => {
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }, []);;
 
   const handleDelete = (row) => {
     setShowModal(true);
@@ -128,6 +128,39 @@ const AdminTable = () => {
     actionsColumn,
   ];
 
+  const customStyles = {
+    rows: {
+      style: {
+        minHeight: '60px', // Adjust as needed
+        borderBottom: '1px solid #e0e0e0',
+      },
+    },
+    pagination: {
+      style: {
+        borderTop: '1px solid #e0e0e0',
+        marginTop: '20px',
+        padding: '10px 0',
+        display: 'flex',
+        justifyContent: 'center',
+      },
+      pageButtonsStyle: {
+        padding: '5px 10px',
+        borderRadius: '5px',
+        margin: '0 3px',
+        cursor: 'pointer',
+      },
+    },
+  };
+
+  const customHeaderStyles = {
+    style: {
+      fontWeight: 'bold',
+      background: '#2e3044',
+      fontSize: '15px',
+      color: 'white',
+    },
+  };
+
   return (
     <div className="admin-table-container">
       <label className="admin">Admins</label>
@@ -136,8 +169,18 @@ const AdminTable = () => {
           Add Admin
         </button>
       </Link>
-      <DataTable columns={columns} data={admins} pagination className="custom-admin-table"/>
-
+      <DataTable
+        columns={columns}
+        data={admins}
+        pagination
+        paginationComponentOptions={{
+          rowsPerPageText: 'Rows per page:',
+          rangeSeparatorText: 'of',
+        }}
+        customStyles={customStyles}
+        customHeaderStyles={customHeaderStyles} // Use customHeaderStyles to modify header styling
+        className="custom-admin-table"
+      />
       <Modal
         isOpen={showModal}
         onRequestClose={cancelDelete}

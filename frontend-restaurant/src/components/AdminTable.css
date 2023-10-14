@@ -6,7 +6,6 @@
   background: linear-gradient( rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.3) ), url(https://images.pexels.com/photos/114979/pexels-photo-114979.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500);
   background-size: cover;
   background-position: center;
-  border-radius: 10px;
 }
 
 .custom-admin-table-container {
@@ -19,6 +18,35 @@
 .custom-admin-table {
   background-color: #ffffff;
   border-radius: 15px 15px 0px 0px;
+}
+
+.custom-admin-table .rdt_TableHeader {
+  background-color: #f5f5f5;
+  font-weight: bold !important;
+  color: #333 !important;
+}
+
+.custom-admin-table .rdt_TableHeader .rdt_TableHeaderCell {
+  font-weight: bold !important;
+}
+
+.custom-admin-table .rdt_TableFooter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 0;
+}
+
+.custom-admin-table .rdt_TableFooter .pagination-control {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.custom-admin-table .rdt_TableFooter .pagination-control select {
+  border: 1px solid #ccc;
+  padding: 5px;
+  border-radius: 5px;
 }
 
 .custom-admin-table .rdt_Table {
@@ -107,6 +135,9 @@
     font-weight: 800;
     /* margin-left: -300px; */
     margin-right: 350px;
+    margin-left: 0px;
+    display: inline;
+    margin-top: 0px;
 }
 
 .btn{

@@ -18,6 +18,8 @@ function Navbar() {
 			<nav ref={navRef}>
 			<div className="div-list">
 		<CustomLink to="/AdminTable">Admins</CustomLink>
+		<CustomLink to="/AddCategory">AddCategory</CustomLink>
+		<CustomLink to="/CategoryTable">Categories</CustomLink>
 		</div>
 				<button
 					className="nav-btn nav-close-btn"

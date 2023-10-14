@@ -14,9 +14,9 @@ namespace Restaurant.API.Models.Entities.Foods
 
         public string ImageName { get; set; }
 
-        public string Featured { get; set; }
+        public bool Featured { get; set; }
 
-        public string Active { get; set; }
+        public bool Active { get; set; }
 
         public Guid CategoryId { get; set; } //foreign key
 

@@ -62,7 +62,6 @@ export default class CreateUser extends Component {
         <Form className="form_container" onSubmit={this.onSubmit}>
           <div className="form_group">
             <h1>Add Admin</h1>
-            <label>Full Name</label>
             <Form.Group className="mb-3" controlId="formBasicText">
               <Form.Control
                 type="text"
@@ -71,7 +70,6 @@ export default class CreateUser extends Component {
                 onChange={this.onChangeFullName}
               />
             </Form.Group>
-            <label>Username</label>
             <Form.Group className="mb-3" controlId="formBasicText">
               <Form.Control
                 type="text"
@@ -80,7 +78,6 @@ export default class CreateUser extends Component {
                 onChange={this.onChangeUserName}
               />
             </Form.Group>
-            <label>Password</label>
             <Form.Group className="mb-3" controlId="formBasicPassword">
               <Form.Control
                 type="password"

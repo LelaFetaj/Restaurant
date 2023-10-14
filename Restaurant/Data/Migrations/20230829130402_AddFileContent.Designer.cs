@@ -12,8 +12,8 @@ using Restaurant.API.Data.Contexts;
 namespace Restaurant.API.Data.Migrations
 {
     [DbContext(typeof(RestaurantDbContext))]
-    [Migration("20230401164253_001")]
-    partial class _001
+    [Migration("20230829130402_AddFileContent")]
+    partial class AddFileContent
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -39,6 +39,9 @@ namespace Restaurant.API.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int>("Position")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Username")
                         .IsRequired()
                         .HasColumnType("text");
@@ -54,11 +57,17 @@ namespace Restaurant.API.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<string>("Active")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<bool>("Active")
+                        .HasColumnType("boolean");
 
-                    b.Property<string>("Featured")
+                    b.Property<bool>("Featured")
+                        .HasColumnType("boolean");
+
+                    b.Property<byte[]>("FileContent")
+                        .IsRequired()
+                        .HasColumnType("bytea");
+
+                    b.Property<string>("ImageName")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -77,9 +86,8 @@ namespace Restaurant.API.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<string>("Active")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<bool>("Active")
+                        .HasColumnType("boolean");
 
                     b.Property<Guid>("CategoryId")
                         .HasColumnType("uuid");
@@ -88,9 +96,8 @@ namespace Restaurant.API.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Featured")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<bool>("Featured")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("ImageName")
                         .IsRequired()

@@ -18,7 +18,8 @@ namespace Restaurant.API.Data.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     FullName = table.Column<string>(type: "text", nullable: false),
                     Username = table.Column<string>(type: "text", nullable: false),
-                    Password = table.Column<string>(type: "text", nullable: false)
+                    Password = table.Column<string>(type: "text", nullable: false),
+                    Position = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -30,9 +31,10 @@ namespace Restaurant.API.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    ImageName = table.Column<string>(type: "text", nullable: false),
                     Title = table.Column<string>(type: "text", nullable: false),
-                    Featured = table.Column<string>(type: "text", nullable: false),
-                    Active = table.Column<string>(type: "text", nullable: false)
+                    Featured = table.Column<bool>(type: "boolean", nullable: false),
+                    Active = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -69,8 +71,8 @@ namespace Restaurant.API.Data.Migrations
                     Description = table.Column<string>(type: "text", nullable: false),
                     Price = table.Column<decimal>(type: "numeric", nullable: false),
                     ImageName = table.Column<string>(type: "text", nullable: false),
-                    Featured = table.Column<string>(type: "text", nullable: false),
-                    Active = table.Column<string>(type: "text", nullable: false),
+                    Featured = table.Column<bool>(type: "boolean", nullable: false),
+                    Active = table.Column<bool>(type: "boolean", nullable: false),
                     CategoryId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>

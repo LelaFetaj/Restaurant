@@ -27,6 +27,10 @@ namespace Restaurant.API.Data.Contexts
         {
             base.OnModelCreating(modelBuilder);
             SetTableRelations(modelBuilder);
+
+            modelBuilder.Entity<Category>()
+            .Property(c => c.FileContent)
+            .HasColumnType("bytea"); 
         }
 
         private static void SetTableRelations(ModelBuilder modelBuilder)

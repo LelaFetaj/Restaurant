@@ -11,7 +11,7 @@ namespace Restaurant.API.Services.Categories
 
         Task<Category> RetrieveCategoryById(Guid id);
 
-        Task<(bool, string)> UpdateCategoryAsync(UpdateCategoryDto updateCategoryDto);
+        Task<(bool, string)> UpdateCategoryAsync(UpdateCategoryDto updateCategoryDto, string imageName);
 
         Task<(bool, string)> DeleteCategoryByIdAsync(Guid id);
     }

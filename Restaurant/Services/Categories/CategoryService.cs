@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Restaurant.API.Models.DTOs.Categories;
 using Restaurant.API.Models.Entities.Categories;
 using Restaurant.API.Repositories.Categories;
@@ -8,10 +9,16 @@ namespace Restaurant.API.Services.Categories
     public class CategoryService : ICategoryService
     {
         private readonly ICategoryRepository categoryRepository;
+        private readonly IWebHostEnvironment webHostEnvironment;
+        private readonly IConfiguration configuration;
 
-        public CategoryService(ICategoryRepository categoryRepository)
+        public CategoryService(ICategoryRepository categoryRepository, 
+            IWebHostEnvironment webHostEnvironment,
+            IConfiguration configuration)
         {
             this.categoryRepository = categoryRepository;
+            this.webHostEnvironment = webHostEnvironment;
+            this.configuration = configuration;
         }
 
         public async Task<(bool, string)> AddCategoryAsync(CreateCategoryDto createCategoryDto)
@@ -25,19 +32,60 @@ namespace Restaurant.API.Services.Categories
                 return (false, "A category with the same title exists. Please choose another title!");
             }
 
-            Category category = new Category
+            if (createCategoryDto.File.Length > 0)
             {
-                Title = createCategoryDto.Title,
-                Featured = createCategoryDto.Featured,
-                Active = createCategoryDto.Active
-            };
+                // Ensure the 'Images' directory exists in the 'wwwroot' folder
+                var imagesDirectory = Path.Combine(webHostEnvironment.WebRootPath, "Images");
+                if (!Directory.Exists(imagesDirectory))
+                {
+                    Directory.CreateDirectory(imagesDirectory);
+                }
 
-            await categoryRepository.InsertCategoryAsync(category);
+                var savedFilename = Guid.NewGuid().ToString();
+                var imagePath = Path.Combine(imagesDirectory, "Uploads", savedFilename);
+                Directory.CreateDirectory(imagePath);
+
+                var fileName = Path.GetFileName(createCategoryDto.File.FileName);
+
+                // Save the uploaded image to the server
+                var filePath = Path.Combine(imagePath, fileName);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await createCategoryDto.File.CopyToAsync(fileStream);
+                    fileStream.Flush();
+                }
+
+                // Return the public URL of the uploaded image
+                //var imageUrl = urlHelper.Content("~/Images/Uploads/" + savedFilename + "/" + fileName);
+
+                var baseUrl = configuration["BaseUrl"];
+                var imageUrl = $"{baseUrl}/Images/Uploads/{savedFilename}/{fileName}";
+
+                byte[] fileContents;
+
+                using (var memoryStream = new MemoryStream())
+                {
+                    await createCategoryDto.File.CopyToAsync(memoryStream);
+                    fileContents = memoryStream.ToArray();
+                }
+
+                Category category = new Category
+                {
+                    Title = createCategoryDto.Title,
+                    Featured = createCategoryDto.Featured,
+                    Active = createCategoryDto.Active,
+                    ImageName = fileName,
+                    FileContent = fileContents
+                };
+
+                await categoryRepository.InsertCategoryAsync(category);
+            
+            }
 
             return (true, "Success");
         }
 
-        public async Task<List<Category>> RetrieveAllCategories()
+    public async Task<List<Category>> RetrieveAllCategories()
         {
             List<Category> categories = await categoryRepository
                 .SelectAllCategories()
@@ -49,7 +97,7 @@ namespace Restaurant.API.Services.Categories
         public async Task<Category> RetrieveCategoryById(Guid id) =>
             await categoryRepository.SelectCategoryByIdAsync(id);
 
-        public async Task<(bool, string)> UpdateCategoryAsync(UpdateCategoryDto updateCategoryDto)
+        public async Task<(bool, string)> UpdateCategoryAsync(UpdateCategoryDto updateCategoryDto, string imageName)
         {
             Category category = await categoryRepository.SelectCategoryByIdAsync(updateCategoryDto.Id);
 
@@ -70,6 +118,7 @@ namespace Restaurant.API.Services.Categories
             category.Title = updateCategoryDto.Title;
             category.Featured = updateCategoryDto.Featured;
             category.Active = updateCategoryDto.Active;
+            category.ImageName = imageName;
 
             await categoryRepository.UpdateCategoryAsync(category);
 

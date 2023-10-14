@@ -45,28 +45,28 @@
 // export default Manage_Admin;
 
 
-import React from 'react';
-import { Button, Card, CardBody, CardGroup, Col, Container, Input, InputGroup, InputGroupAddon, InputGroupText, Row, NavLink  } from 'react-bootstrap';
-import { useNavigate } from "react-router-dom";
-import Admin from './Admin';
+// import React from 'react';
+// import { Button, Card, CardBody, CardGroup, Col, Container, Input, InputGroup, InputGroupAddon, InputGroupText, Row, NavLink  } from 'react-bootstrap';
+// import { useNavigate } from "react-router-dom";
+// import Admin from './Admin';
 
-function Manage_Admin() {
+// function Manage_Admin() {
   
-  let navigate = useNavigate(); 
-  const routeChange = () =>{ 
-    let path = './Admin'; 
-    navigate(path);
-  }
+//   let navigate = useNavigate(); 
+//   const routeChange = () =>{ 
+//     let path = './Admin'; 
+//     navigate(path);
+//   }
   
-  return (
-     <div className="app flex-row align-items-center">
-      <Container>        
-          <Button color="primary" className="px-4"
-            onClick={routeChange}>
-              Add Admin
-            </Button>
-       </Container>
-    </div>
-  );
-}
-export default Manage_Admin;
+//   return (
+//      <div className="app flex-row align-items-center">
+//       <Container>        
+//           <Button color="primary" className="px-4"
+//             onClick={routeChange}>
+//               Add Admin
+//             </Button>
+//        </Container>
+//     </div>
+//   );
+// }
+// export default Manage_Admin;
