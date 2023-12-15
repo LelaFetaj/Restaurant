@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Restaurant.API.Models.DTOs.Categories;
 using Restaurant.API.Models.Entities.Categories;
+using Restaurant.API.Repositories.Categories;
 using Restaurant.API.Services.Categories;
 
 namespace Restaurant.API.Controllers.Categories
@@ -40,19 +41,45 @@ namespace Restaurant.API.Controllers.Categories
             }
         }
 
-        // Action to serve images
-        [HttpGet("Images/{savedFilename}/{fileName}")]
-        public IActionResult GetUploadedImage(string savedFilename, string fileName)
+        [HttpGet("{categoryId}/get-image")]
+        public async Task<IActionResult> GetCategoryImage(Guid categoryId, int maxWidth = 800, int maxHeight = 600)
         {
-            var imagePath = Path.Combine(webHostEnvironment.WebRootPath, "Images", "Uploads", savedFilename, fileName);
+            var categoryImageResult = await categoryService.GetCategoryImage(categoryId, maxWidth, maxHeight);
 
-            if (System.IO.File.Exists(imagePath))
+            if (categoryImageResult.IsSuccess)
             {
-                var imageBytes = System.IO.File.ReadAllBytes(imagePath);
-                return File(imageBytes, "image/jpeg"); // Adjust the content type based on your image type (e.g., "image/png" for PNG images)
+                if (categoryImageResult.FileContent != null)
+                {
+                    return File(categoryImageResult.FileContent, "image/jpeg");
+                }
+                else if (!string.IsNullOrEmpty(categoryImageResult.ImageUrl))
+                {
+                    return Redirect(categoryImageResult.ImageUrl);
+                }
             }
 
-            return NotFound(); // Return a 404 if the image does not exist
+            return NotFound(categoryImageResult.Message);
+        }
+
+
+        [HttpPut("{categoryId}/update-picture")]
+        public async Task<IActionResult> UpdateCategoryPicture([FromRoute] Guid categoryId, IFormFile newCategoryPicture)
+        {
+            try
+            {
+                var result = await categoryService.UpdateCategoryPictureAsync(categoryId, newCategoryPicture);
+
+                if (result.IsSuccess)
+                {
+                    return Ok(new { message = result.Message });
+                }
+
+                return BadRequest(new { message = result.Message });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
 
 

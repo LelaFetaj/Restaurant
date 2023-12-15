@@ -1,9 +1,9 @@
-﻿namespace Restaurant.API.Services.File
-{
-    public interface IFileService
-    {
-        public Tuple<int, string> SaveImage(IFormFile file);
+﻿//namespace Restaurant.API.Services.File
+//{
+//    public interface IFileService
+//    {
+//        public Tuple<int, string> SaveImage(IFormFile file);
 
-        public bool DeleteImage(string fileName);
-    }
-}
+//        public bool DeleteImage(string fileName);
+//    }
+//}
